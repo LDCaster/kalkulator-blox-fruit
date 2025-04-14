@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator Diskon & Operasi Matematika</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #333;
+        flex-direction: column;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        width: 600px;
+        transition: all 0.3s ease;
+      }
+
+      .container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 14px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        text-align: right;
+        font-size: 18px;
+        transition: border-color 0.2s;
+      }
+
+      input[type="text"]:focus {
+        border-color: #4facfe;
+        outline: none;
+      }
+
+      button {
+        background: #4facfe;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      button:hover {
+        background: #00c6ff;
+      }
+
+      .result {
+        margin-top: 15px;
+        font-size: 16px;
+        background: #f1f1f1;
+        padding: 15px;
+        border-radius: 10px;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .footer {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 5px 15px;
+        border-radius: 20px;
+        user-select: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .footer span {
+        font-weight: bold;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="section">
+        <h2>Hitung 40% & Pengurangan</h2>
+        <input type="text" id="nominal" placeholder="Masukkan Nominal Angka" />
+        <button onclick="hitungDiskon()">Hitung</button>
+        <div class="result" id="outputDiskon"></div>
+      </div>
+
+      <div class="section">
+        <h2>Penjumlahan & Perkalian</h2>
+        <input type="text" id="angka1" placeholder="Masukkan Angka Pertama" />
+        <input type="text" id="angka2" placeholder="Masukkan Angka Kedua" />
+        <button onclick="hitungMath()">Hitung</button>
+        <div class="result" id="outputMath"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Made with ❤️ by <span>Pyuuu Dev</span> — Simple, Clean & Useful.
+    </div>
+
+    <script>
+      function formatInput(input) {
+        let value = input.value.replace(/\./g, "").replace(/[^\d]/g, "");
+        if (value) {
+          input.value = parseInt(value).toLocaleString("id-ID");
+        } else {
+          input.value = "";
+        }
+      }
+
+      document.getElementById("nominal").addEventListener("input", function () {
+        formatInput(this);
+      });
+      document.getElementById("angka1").addEventListener("input", function () {
+        formatInput(this);
+      });
+      document.getElementById("angka2").addEventListener("input", function () {
+        formatInput(this);
+      });
+
+      function hitungDiskon() {
+        let nominalText = document
+          .getElementById("nominal")
+          .value.replace(/\./g, "");
+        let nominal = parseFloat(nominalText);
+        if (isNaN(nominal) || nominal <= 0) {
+          document.getElementById("outputDiskon").innerHTML =
+            "⚠️ Masukkan angka yang valid!";
+          return;
+        }
+        const persentase = nominal * 0.4;
+        const hasilAkhir = nominal - persentase;
+        document.getElementById("outputDiskon").innerHTML = `
+      💡 40% dari <strong>${nominal.toLocaleString(
+        "id-ID"
+      )}</strong> adalah <strong>${persentase.toLocaleString(
+          "id-ID"
+        )}</strong> <br>
+      💰 Sisa nominal setelah dikurangi: <strong>${hasilAkhir.toLocaleString(
+        "id-ID"
+      )}</strong>
+    `;
+      }
+
+      function hitungMath() {
+        let angka1 = document.getElementById("angka1").value.replace(/\./g, "");
+        let angka2 = document.getElementById("angka2").value.replace(/\./g, "");
+
+        let num1 = parseFloat(angka1);
+        let num2 = parseFloat(angka2);
+
+        if (isNaN(num1) || isNaN(num2)) {
+          document.getElementById("outputMath").innerHTML =
+            "⚠️ Masukkan kedua angka dengan benar!";
+          return;
+        }
+
+        let hasilTambah = num1 + num2;
+        let hasilKali = num1 * num2;
+
+        document.getElementById("outputMath").innerHTML = `
+      ➕ Penjumlahan: <strong>${hasilTambah.toLocaleString(
+        "id-ID"
+      )}</strong> <br>
+      ✖️ Perkalian: <strong>${hasilKali.toLocaleString("id-ID")}</strong>
+    `;
+      }
+    </script>
+  </body>
+</html>
